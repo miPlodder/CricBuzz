@@ -69,10 +69,15 @@ public class CricketScoreTask extends AsyncTask<String,Void,CricketScorePOJO> {
 
             String score = "";
 
-            if(matchStarted)
-                score =jsonObject.getString("score");
+            if(matchStarted) {
+                try {
+                    score = jsonObject.getString("score");
+                }catch (Exception e){
 
-
+                    score = "";
+                    Log.d(TAG, "INSIDE EXCEPTION");
+                }
+            }
 
             cricketScorePOJO = new CricketScorePOJO(
                     jsonObject.getBoolean("matchStarted"),
@@ -83,7 +88,7 @@ public class CricketScoreTask extends AsyncTask<String,Void,CricketScorePOJO> {
                     jsonObject.getString("innings-requirement")
             );
 
- //           Log.d(TAG, "doInBackground: " + jsonObject.getString("types"));
+ //Log.d(TAG, "doInBackground: " + jsonObject.getString("types"));
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();

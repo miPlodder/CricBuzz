@@ -2,6 +2,7 @@ package l14.cb.com.cricbuzz.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
     CricketScorePOJO liveScore;
     Context context;
     Boolean matchStarted;
+    public static final String TAG = "CricketScoreAdapter";
 
     public CricketScoreAdapter(CricketScorePOJO liveScore, Context context, Boolean matchStarted) {
         this.liveScore = liveScore;
@@ -45,14 +47,21 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
     @Override
     public void onBindViewHolder(CricketScoreViewHolder holder, int position) {
 
-        holder.tvMatchType.setText(liveScore.getType()+" Match");
+        holder.tvMatchType.setText(liveScore.getType() + " Match");
 
         holder.tvTeam1.setText(liveScore.getTeam_1());
         holder.tvTeam2.setText(liveScore.getTeam_2());
 
-        if (matchStarted)
-            holder.tvMatchStarted.setText("In Progress");
-        else
+
+        if (matchStarted) {
+            if (liveScore.getScore().equals("")) {
+
+                holder.tvMatchStarted.setText("Match Completed");
+
+            } else {
+                holder.tvMatchStarted.setText("In Progress");
+            }
+        } else
             holder.tvMatchStarted.setText(liveScore.getInnings_requirement());
 
         if (matchStarted)
@@ -60,23 +69,36 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
         else {
             holder.tvInningsRequirement.setVisibility(View.GONE);
         }
-        if (matchStarted)
-            holder.tvScore.setText(liveScore.getScore());
-        else {
+        if (matchStarted) {
+            if (liveScore.getScore().equals("")) {
+                holder.tvScore.setVisibility(View.GONE);
+                holder.tvCurrBatsman.setVisibility(View.GONE);
+                holder.tvCurrBowler.setVisibility(View.GONE);
+
+            } else {
+
+                holder.tvScore.setText(getCurrScore(liveScore.getScore()));
+                holder.tvCurrBatsman.setText(getCurrBatsman(liveScore.getScore()));
+                holder.tvCurrBowler.setText(getCurrBowler(liveScore.getScore()));
+
+            }
+        } else {
             holder.tvScore.setVisibility(View.GONE);
+            holder.tvCurrBatsman.setVisibility(View.GONE);
+            holder.tvCurrBowler.setVisibility(View.GONE);
         }
 
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return 1;
     }
 
     class CricketScoreViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTeam1, tvTeam2, tvMatchType, tvMatchStarted, tvInningsRequirement, tvScore;
+        TextView tvCurrBatsman, tvCurrBowler;
 
         public CricketScoreViewHolder(View itemView) {
 
@@ -87,7 +109,55 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
             tvMatchStarted = (TextView) itemView.findViewById(R.id.tvMatchStarted);
             tvInningsRequirement = (TextView) itemView.findViewById(R.id.tvInningsRequirement);
             tvScore = (TextView) itemView.findViewById(R.id.tvScore);
+            tvCurrBatsman = (TextView) itemView.findViewById(R.id.tvBatsman);
+            tvCurrBowler = (TextView) itemView.findViewById(R.id.tvBowler);
 
         }
+    }
+
+    private String getCurrScore(String score){
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0 ; i < score.length() ; i++){
+
+            if(score.charAt(i) == ','){
+                break;
+            }
+
+            sb.append(score.charAt(i));
+        }
+
+        sb.append(")");
+
+        return sb.toString();
+    }
+
+    private String getCurrBatsman(String score){
+
+        StringBuilder sb = new StringBuilder();
+
+        int indexStart = score.indexOf(',') + 2;
+        int indexEnd = score.lastIndexOf(',') - 1;
+
+        return score.substring(indexStart,indexEnd+1);
+    }
+
+    private String getCurrBowler(String score){
+
+        StringBuilder sb = new StringBuilder();
+
+        int index = score.lastIndexOf(',') + 2;
+
+        for(int i = index ; i < score.length() ; i++){
+
+            if(score.charAt(i) == ')'){
+                break;
+            }
+
+            sb.append(score.charAt(i));
+        }
+
+        return sb.toString();
     }
 }

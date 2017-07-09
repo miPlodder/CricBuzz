@@ -1,11 +1,14 @@
 package l14.cb.com.cricbuzz.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import l14.cb.com.cricbuzz.R;
@@ -20,6 +23,7 @@ public class CricketScoreActivity extends AppCompatActivity {
     public static final String TAG = "CricketScoreActivity";
     Boolean matchStarted;
     CricketScoreAdapter adapter;
+    ImageView ivAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +32,21 @@ public class CricketScoreActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: unique_key -> " + unique_key);
         Intent i = getIntent();
+
         if (i != null) {
 
             unique_key = i.getStringExtra("unique_id");
-            matchStarted = i.getBooleanExtra("matchStarted",false);
+            matchStarted = i.getBooleanExtra("matchStarted", false);
             Log.d(TAG, "onCreate: inside IF");
 
         }
 
+        ivAnim = (ImageView) findViewById(R.id.ivAnim);
+        ivAnim.setBackgroundResource(R.drawable.anim_items);
+
+        ivAnim.setVisibility(View.GONE);
         rv = (RecyclerView) findViewById(R.id.rvCricketScore);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-        //adapter = new CricketScoreAdapter(new CricketScorePOJO(true,"","","","",""),this,matchStarted);
 
         StringBuilder URL = new StringBuilder();
         URL.append("http://cricapi.com/api/cricketScore?apikey=JUQuaCHs9yfYxcsT1InOJ1wOC9I3&unique_id=");
@@ -49,13 +56,17 @@ public class CricketScoreActivity extends AppCompatActivity {
             @Override
             public void setOnItemView(CricketScorePOJO cricketScorePOJO) {
 
-                CricketScoreAdapter cricketScoreAdapter = new CricketScoreAdapter(cricketScorePOJO,CricketScoreActivity.this,matchStarted);
+                ivAnim.setVisibility(View.VISIBLE);
+                CricketScoreAdapter cricketScoreAdapter = new CricketScoreAdapter(cricketScorePOJO, CricketScoreActivity.this, matchStarted);
                 rv.setAdapter(cricketScoreAdapter);
 
             }
-        },matchStarted);
+        }, matchStarted);
 
-      cricketScoreTask.execute(URL.toString());
+        cricketScoreTask.execute(URL.toString());
+
+        AnimationDrawable ar = (AnimationDrawable) ivAnim.getBackground();
+        ar.start();
 
     }
 }

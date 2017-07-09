@@ -2,6 +2,7 @@ package l14.cb.com.cricbuzz.activities;
 
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvOngoingMatches, tvUpcomingMatches, tvCalender;
     Boolean matchStarted;
     TextToSpeech tts;
+    SwipeRefreshLayout str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvOngoingMatches = (TextView) findViewById(R.id.tvOngoingMatches);
         tvUpcomingMatches = (TextView) findViewById(R.id.tvUpcomingMatches);
         tvCalender = (TextView) findViewById(R.id.tvCalender);
-
+        str = (SwipeRefreshLayout) findViewById(R.id.str);
         tvUpcomingMatches.setOnClickListener(this);
         tvOngoingMatches.setOnClickListener(this);
         tvCalender.setOnClickListener(this);
 
+        str.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                //startActivity(new Intent(MainActivity.this, MainActivity.class));
+                onCreate(null);
+            }
+        });
 
     }
 
@@ -54,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.tvCalender:
+        /*    case R.id.tvCalender:
 
                 tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
                     @Override
@@ -74,14 +84,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
-                /*tts.speak("saksham", TextToSpeech.QUEUE_ADD, null);*/
-                break;
+                *//*tts.speak("saksham", TextToSpeech.QUEUE_ADD, null);*//*
+                break;*/
         }
 
-
-        /*Intent i = new Intent(this, LiveMatchActivity.class);
+        Intent i = new Intent(this, LiveMatchActivity.class);
         i.putExtra("matchStarted", matchStarted);
-        startActivity(i);*/
+        startActivity(i);
 
     }
 }

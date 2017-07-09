@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CricBuzz</string>
+    <string name="app_name">Cricbuzz</string>
     <string name="ongoing_matches_scores"><u>Ongoing Matches Scores</u></string>
     <string name="ongoing_matches"><u>Ongoing Matches</u></string>
 </resources>

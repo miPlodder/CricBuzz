@@ -1,6 +1,7 @@
 package l14.cb.com.cricbuzz.activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import l14.cb.com.cricbuzz.R;
 import l14.cb.com.cricbuzz.adapters.LiveMatchAdapter;
 import l14.cb.com.cricbuzz.asyntasks.LiveMatchTask;
 import l14.cb.com.cricbuzz.models.LiveMatchPOJO;
+import l14.cb.com.cricbuzz.sensors.MySensorManager;
 
 public class LiveMatchActivity extends AppCompatActivity {
 
@@ -38,6 +40,17 @@ public class LiveMatchActivity extends AppCompatActivity {
             matchStarted = i.getBooleanExtra("matchStarted", false);
 
         }
+
+        MySensorManager.accelSensorActivate(this, new MySensorManager.OnEventListener() {
+            @Override
+            public void setOnEventListener() {
+
+                Log.d(TAG, "FROM LIVE MATCH");
+                finish();
+
+            }
+        });
+
 
         str = (SwipeRefreshLayout) findViewById(R.id.str);
         str.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -78,5 +91,12 @@ public class LiveMatchActivity extends AppCompatActivity {
 
         liveMatchTask.execute(URL);
 
+
+     /*   new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "run: of handlerACTIVITY");
+            }
+        },10000);*/
     }
 }

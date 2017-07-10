@@ -23,7 +23,7 @@ import l14.cb.com.cricbuzz.models.LiveMatchPOJO;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = "MainActivity";
-    TextView tvOngoingMatches, tvUpcomingMatches, tvCalender;
+    TextView tvOngoingMatches, tvUpcomingMatches;
     Boolean matchStarted;
     TextToSpeech tts;
     SwipeRefreshLayout str;
@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvOngoingMatches = (TextView) findViewById(R.id.tvOngoingMatches);
         tvUpcomingMatches = (TextView) findViewById(R.id.tvUpcomingMatches);
-        tvCalender = (TextView) findViewById(R.id.tvCalender);
+        //tvCalender = (TextView) findViewById(R.id.tvCalender);
         str = (SwipeRefreshLayout) findViewById(R.id.str);
         tvUpcomingMatches.setOnClickListener(this);
         tvOngoingMatches.setOnClickListener(this);
-        tvCalender.setOnClickListener(this);
+        //tvCalender.setOnClickListener(this);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         //fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255,255,255)));
         fab.setOnClickListener(new View.OnClickListener() {

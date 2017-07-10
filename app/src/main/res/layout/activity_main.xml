@@ -39,17 +39,6 @@
                 android:text="Upcoming Matches"
                 android:textSize="30dp" />
 
-            <TextView
-                android:id="@+id/tvCalender"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#CFDAD1"
-                android:gravity="center"
-                android:text="Cricket Calender"
-                android:textSize="30dp" />
-
-
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
@@ -58,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:elevation="3000dp"
-            app:layout_anchor="@id/tvCalender"
+            app:layout_anchor="@id/tvUpcomingMatches"
             app:backgroundTint="@color/fab_material_white"
             app:borderWidth="2dp"
             app:layout_anchorGravity="bottom|right"

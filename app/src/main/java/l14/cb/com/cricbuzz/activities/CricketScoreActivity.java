@@ -18,6 +18,7 @@ import l14.cb.com.cricbuzz.R;
 import l14.cb.com.cricbuzz.adapters.CricketScoreAdapter;
 import l14.cb.com.cricbuzz.asyntasks.CricketScoreTask;
 import l14.cb.com.cricbuzz.models.CricketScorePOJO;
+import l14.cb.com.cricbuzz.sensors.MySensorManager;
 
 public class CricketScoreActivity extends AppCompatActivity {
 
@@ -45,6 +46,16 @@ public class CricketScoreActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: inside IF");
 
         }
+
+        MySensorManager.accelSensorActivate(this, new MySensorManager.OnEventListener() {
+            @Override
+            public void setOnEventListener() {
+
+                Log.d(TAG, "FROM CRICKET SCORE");
+                finish();
+
+            }
+        });
 
         str = (SwipeRefreshLayout) findViewById(R.id.str);
         str.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

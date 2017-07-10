@@ -1,7 +1,10 @@
 package l14.cb.com.cricbuzz.asyntasks;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,20 +25,22 @@ import l14.cb.com.cricbuzz.models.LiveMatchPOJO;
  * Created by ip510 feih on 08-07-2017.
  */
 
-public class LiveMatchTask extends AsyncTask<String, Void, ArrayList<LiveMatchPOJO>> {
+public class LiveMatchTask extends AsyncTask<String, Integer, ArrayList<LiveMatchPOJO>> {
 
     public static final String TAG = "LiveMatchTask";
     private OnDownloadListener odl;
     private Boolean matchStarted;
+    private ProgressBar pvLiveMatch;
 
     public interface OnDownloadListener {
         void setOnDownloadListener(ArrayList<LiveMatchPOJO> liveMatches);
     }
 
-    public LiveMatchTask(OnDownloadListener odl, Boolean matchStarted) {
+    public LiveMatchTask(OnDownloadListener odl, Boolean matchStarted, ProgressBar pvLiveMatch) {
 
         this.odl = odl;
         this.matchStarted = matchStarted;
+        this.pvLiveMatch = pvLiveMatch;
     }
 
     @Override
@@ -60,6 +65,7 @@ public class LiveMatchTask extends AsyncTask<String, Void, ArrayList<LiveMatchPO
             BufferedReader br = new BufferedReader(isr);
             String buffer = "";
             StringBuilder sb = new StringBuilder();
+
             while (buffer != null) {
 
                 sb.append(buffer);
@@ -70,15 +76,12 @@ public class LiveMatchTask extends AsyncTask<String, Void, ArrayList<LiveMatchPO
             JSONObject jsonObject = new JSONObject(sb.toString());
             JSONArray jsonArray = jsonObject.getJSONArray("matches");
 
-            int counter = 0;
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject currItem = jsonArray.getJSONObject(i);
 
                 if (matchStarted == currItem.getBoolean("matchStarted")) {
 
-                    counter++;
-                    Log.d(TAG, "IF "+counter+", size = "+jsonArray.length());
                     liveMatches.add(new LiveMatchPOJO(
 
                             new LiveMatchPOJO.MatchDetail(
@@ -90,8 +93,7 @@ public class LiveMatchTask extends AsyncTask<String, Void, ArrayList<LiveMatchPO
                 } else {
 
                     //do nothing
-                    counter++;
-                    Log.d(TAG, "ELSE "+counter+", size = "+jsonArray.length());
+
                 }
 
             }
@@ -110,6 +112,7 @@ public class LiveMatchTask extends AsyncTask<String, Void, ArrayList<LiveMatchPO
 
         odl.setOnDownloadListener(liveMatchPOJOs);
         Log.d(TAG, "matchStarted -> " + liveMatchPOJOs);
+        pvLiveMatch.setVisibility(View.GONE);
         super.onPostExecute(liveMatchPOJOs);
     }
 }

@@ -1,48 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.SwipeRefreshLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/str"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/str"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="l14.cb.com.cricbuzz.activities.MainActivity">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvOngoingMatches"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#FFA"
-            android:gravity="center"
-            android:text="Live Matches"
-            android:textSize="30dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="l14.cb.com.cricbuzz.activities.MainActivity">
 
-        <TextView
-            android:id="@+id/tvUpcomingMatches"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#FFAAAA"
-            android:gravity="center"
-            android:text="Upcoming Matches"
-            android:textSize="30dp" />
+            <TextView
+                android:id="@+id/tvOngoingMatches"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#FFA"
+                android:gravity="center"
+                android:text="Live Matches"
+                android:textSize="30dp" />
 
-        <TextView
-            android:id="@+id/tvCalender"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#CFDAD1"
-            android:gravity="center"
-            android:text="Cricket Calender"
-            android:textSize="30dp" />
+            <TextView
+                android:id="@+id/tvUpcomingMatches"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#FFAAAA"
+                android:gravity="center"
+                android:text="Upcoming Matches"
+                android:textSize="30dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvCalender"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#CFDAD1"
+                android:gravity="center"
+                android:text="Cricket Calender"
+                android:textSize="30dp" />
+
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:elevation="3000dp"
+            app:layout_anchor="@id/tvCalender"
+            app:backgroundTint="@color/fab_material_white"
+            app:borderWidth="2dp"
+            app:layout_anchorGravity="bottom|right"
+            android:src="@drawable/feedback"/>
+    </android.support.design.widget.CoordinatorLayout>
+
 </android.support.v4.widget.SwipeRefreshLayout>

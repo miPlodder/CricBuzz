@@ -1,13 +1,17 @@
 package l14.cb.com.cricbuzz.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Boolean matchStarted;
     TextToSpeech tts;
     SwipeRefreshLayout str;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +41,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvUpcomingMatches.setOnClickListener(this);
         tvOngoingMatches.setOnClickListener(this);
         tvCalender.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255,255,255)));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(MainActivity.this, "Used to give Feedback", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         str.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
+                //Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
+                str.setRefreshing(false);
+                // both the below methods are used to stop the Spinner from the activity
+                str.destroyDrawingCache();
+                str.clearAnimation();
                 //startActivity(new Intent(MainActivity.this, MainActivity.class));
-                onCreate(null);
+                //onCreate(null);
             }
         });
 

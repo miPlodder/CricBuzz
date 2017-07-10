@@ -2,6 +2,7 @@ package l14.cb.com.cricbuzz.activities;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import l14.cb.com.cricbuzz.R;
@@ -25,6 +27,8 @@ public class CricketScoreActivity extends AppCompatActivity {
     Boolean matchStarted;
     CricketScoreAdapter adapter;
     ImageView ivAnim;
+    ProgressBar pbScore;
+    SwipeRefreshLayout str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,18 @@ public class CricketScoreActivity extends AppCompatActivity {
 
         }
 
+        str = (SwipeRefreshLayout) findViewById(R.id.str);
+        str.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                str.setRefreshing(false);
+                str.destroyDrawingCache();
+                str.clearAnimation();
+
+            }
+        });
+
         ivAnim = (ImageView) findViewById(R.id.ivAnim);
         ivAnim.setBackgroundResource(R.drawable.anim_items);
 
@@ -50,6 +66,7 @@ public class CricketScoreActivity extends AppCompatActivity {
         animator.setRemoveDuration(1000);
 
         ivAnim.setVisibility(View.GONE);
+        pbScore = (ProgressBar) findViewById(R.id.pbScore);
         rv = (RecyclerView) findViewById(R.id.rvCricketScore);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setItemAnimator(animator);
@@ -67,7 +84,7 @@ public class CricketScoreActivity extends AppCompatActivity {
                 rv.setAdapter(cricketScoreAdapter);
 
             }
-        }, matchStarted);
+        }, matchStarted, pbScore);
 
         cricketScoreTask.execute(URL.toString());
 

@@ -2,6 +2,8 @@ package l14.cb.com.cricbuzz.asyntasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,15 +28,17 @@ public class CricketScoreTask extends AsyncTask<String,Void,CricketScorePOJO> {
     OnItemView oiv;
     public static final String TAG = "CricketScoreTask";
     Boolean matchStarted;
+    ProgressBar pbScore;
 
     public interface OnItemView{
         void setOnItemView(CricketScorePOJO cricketScorePOJO);
     }
 
-    public CricketScoreTask(OnItemView oiv, Boolean matchStarted) {
+    public CricketScoreTask(OnItemView oiv, Boolean matchStarted, ProgressBar pbScore) {
 
         this.oiv = oiv;
         this.matchStarted = matchStarted;
+        this.pbScore = pbScore;
     }
 
     @Override
@@ -102,6 +106,7 @@ public class CricketScoreTask extends AsyncTask<String,Void,CricketScorePOJO> {
     protected void onPostExecute(CricketScorePOJO cricketScorePOJO) {
 
         oiv.setOnItemView(cricketScorePOJO);
+        pbScore.setVisibility(View.GONE);
         super.onPostExecute(cricketScorePOJO);
 
     }

@@ -56,10 +56,11 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
         if (matchStarted) {
             if (liveScore.getScore().equals("")) {
 
-                holder.tvMatchStarted.setText("Match Completed");
+                /*holder.tvMatchStarted.setText("Match Completed");*/
+                holder.tvMatchStarted.setVisibility(View.GONE);
 
             } else {
-                holder.tvMatchStarted.setText("In Progress");
+                holder.tvMatchStarted.setVisibility(View.GONE);
             }
         } else
             holder.tvMatchStarted.setText(liveScore.getInnings_requirement());
@@ -115,13 +116,13 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
         }
     }
 
-    private String getCurrScore(String score){
+    private String getCurrScore(String score) {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0 ; i < score.length() ; i++){
+        for (int i = 0; i < score.length(); i++) {
 
-            if(score.charAt(i) == ','){
+            if (score.charAt(i) == ',') {
                 break;
             }
 
@@ -133,25 +134,25 @@ public class CricketScoreAdapter extends RecyclerView.Adapter<CricketScoreAdapte
         return sb.toString();
     }
 
-    private String getCurrBatsman(String score){
+    private String getCurrBatsman(String score) {
 
         StringBuilder sb = new StringBuilder();
 
         int indexStart = score.indexOf(',') + 2;
         int indexEnd = score.lastIndexOf(',') - 1;
 
-        return score.substring(indexStart,indexEnd+1);
+        return score.substring(indexStart, indexEnd + 1);
     }
 
-    private String getCurrBowler(String score){
+    private String getCurrBowler(String score) {
 
         StringBuilder sb = new StringBuilder();
 
         int index = score.lastIndexOf(',') + 2;
 
-        for(int i = index ; i < score.length() ; i++){
+        for (int i = index; i < score.length(); i++) {
 
-            if(score.charAt(i) == ')'){
+            if (score.charAt(i) == ')') {
                 break;
             }
 

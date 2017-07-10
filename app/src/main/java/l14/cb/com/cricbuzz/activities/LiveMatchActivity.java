@@ -1,12 +1,14 @@
 package l14.cb.com.cricbuzz.activities;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,8 @@ public class LiveMatchActivity extends AppCompatActivity {
     final private static String URL = "http://cricapi.com/api/matches?apikey=JUQuaCHs9yfYxcsT1InOJ1wOC9I3";
     Boolean matchStarted;
     LiveMatchAdapter adapter;
+    ProgressBar pbLiveMatch;
+    SwipeRefreshLayout str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,18 @@ public class LiveMatchActivity extends AppCompatActivity {
 
         }
 
+        str = (SwipeRefreshLayout) findViewById(R.id.str);
+        str.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                str.setRefreshing(false);
+                str.destroyDrawingCache();
+                str.clearAnimation();
+
+            }
+        });
+        pbLiveMatch = (ProgressBar) findViewById(R.id.pbLiveMatch);
         rvLiveMatch = (RecyclerView) findViewById(R.id.rvLiveMatch);
         rvLiveMatch.setLayoutManager(new LinearLayoutManager(this));
 
@@ -57,7 +73,7 @@ public class LiveMatchActivity extends AppCompatActivity {
                 adapter.updateData(liveMatches);
 
             }
-        }, matchStarted);
+        }, matchStarted, pbLiveMatch);
         Log.d(TAG, "onCreate: " + matchStarted);
 
         liveMatchTask.execute(URL);

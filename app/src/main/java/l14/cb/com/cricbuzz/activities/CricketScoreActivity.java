@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,9 +45,14 @@ public class CricketScoreActivity extends AppCompatActivity {
         ivAnim = (ImageView) findViewById(R.id.ivAnim);
         ivAnim.setBackgroundResource(R.drawable.anim_items);
 
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(1000);
+        animator.setRemoveDuration(1000);
+
         ivAnim.setVisibility(View.GONE);
         rv = (RecyclerView) findViewById(R.id.rvCricketScore);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setItemAnimator(animator);
 
         StringBuilder URL = new StringBuilder();
         URL.append("http://cricapi.com/api/cricketScore?apikey=JUQuaCHs9yfYxcsT1InOJ1wOC9I3&unique_id=");

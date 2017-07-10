@@ -13,16 +13,18 @@ import java.util.ArrayList;
 
 import l14.cb.com.cricbuzz.R;
 import l14.cb.com.cricbuzz.activities.CricketScoreActivity;
+import l14.cb.com.cricbuzz.animations.AnimUtil;
 import l14.cb.com.cricbuzz.models.LiveMatchPOJO;
 
 /**
  * Created by ip510 feih on 08-07-2017.
  */
 
-public class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.LiveMatchViewHolder>{
+public class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.LiveMatchViewHolder> {
 
     ArrayList<LiveMatchPOJO> liveMatches;
     Context context;
+    int prevPos = -1;
 
     public LiveMatchAdapter(ArrayList<LiveMatchPOJO> liveMatches, Context context) {
 
@@ -31,7 +33,7 @@ public class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Live
 
     }
 
-    public void updateData(ArrayList<LiveMatchPOJO> liveMatches){
+    public void updateData(ArrayList<LiveMatchPOJO> liveMatches) {
 
         this.liveMatches = liveMatches;
         notifyDataSetChanged();
@@ -43,7 +45,7 @@ public class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Live
 
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemView = li.inflate(R.layout.item_live_match,parent,false);
+        View itemView = li.inflate(R.layout.item_live_match, parent, false);
 
         return new LiveMatchViewHolder(itemView);
 
@@ -52,23 +54,35 @@ public class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Live
     @Override
     public void onBindViewHolder(LiveMatchViewHolder holder, final int position) {
 
+
         LiveMatchPOJO.MatchDetail currItem = liveMatches.get(position).getMatchDetail();
 
         holder.tvTeam1.setText(currItem.getTeam_1());
         holder.tvTeam2.setText(currItem.getTeam_2());
+
+        if (prevPos < position) {
+            //downwards
+            AnimUtil.animate(holder, true);
+        }else{
+            //upwards
+            AnimUtil.animate(holder, false);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent i = new Intent(context, CricketScoreActivity.class);
-                i.putExtra("unique_id",liveMatches.get(position).getMatchDetail().getUnique_key());
-                i.putExtra("matchStarted",liveMatches.get(position).getMatchDetail().getMatchStarted());
+                i.putExtra("unique_id", liveMatches.get(position).getMatchDetail().getUnique_key());
+                i.putExtra("matchStarted", liveMatches.get(position).getMatchDetail().getMatchStarted());
                 //Toast.makeText(context, "Clicked Item "+ position, Toast.LENGTH_SHORT).show();
                 context.startActivity(i);
 
             }
         });
+
+        prevPos = position;
+
 
     }
 
@@ -79,8 +93,7 @@ public class LiveMatchAdapter extends RecyclerView.Adapter<LiveMatchAdapter.Live
     }
 
 
-
-    class LiveMatchViewHolder extends RecyclerView.ViewHolder{
+    class LiveMatchViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTeam1, tvTeam2;
         View itemView;
